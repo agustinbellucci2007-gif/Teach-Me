@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teach Me — Encuentra tu profe</title>
+  <style>
+    :root{--accent:#2b6cb0;--accent-2:#2c7a7b;--bg:#f7f9fc;--card:#ffffff;--muted:#6b7280}
+    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{margin:0;background:linear-gradient(180deg,#f7f9fc 0%, #ffffff 100%);color:#0f1724}
+    header{background:linear-gradient(90deg, rgba(43,108,176,0.95), rgba(44,122,123,0.95));color:white;padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .mark{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-weight:700}
+    nav{display:flex;gap:8px}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.18);padding:8px 12px;border-radius:10px;color:white;cursor:pointer}
+    .btn.primary{background:white;color:var(--accent);border:none}
+    main{padding:28px 20px;max-width:1100px;margin:0 auto}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:22px}
+    .hero .panel{background:var(--card);padding:22px;border-radius:14px;box-shadow:0 6px 18px rgba(15,23,36,0.06)}
+    h1{margin:0 0 8px;font-size:28px}
+    p.lead{color:var(--muted);margin:0 0 16px}
+    .search-bar{display:flex;gap:8px}
+    .search-bar input{flex:1;padding:12px;border-radius:10px;border:1px solid #e6eef7}
+    .search-bar button{padding:12px 14px;border-radius:10px;border:none;background:var(--accent);color:white;cursor:pointer}
+    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+    .feature{padding:12px;border-radius:8px;background:linear-gradient(180deg,#fbfdff,#f6fbff);border:1px solid #e7f0fb}
+    .categories{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid #cbd5e1;color:#0f1724;cursor:pointer}
+    .chip.active{background:var(--accent);color:white;border:none}
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:16px}
+    .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,36,0.05);display:flex;flex-direction:column;gap:8px}
+    .card .meta{display:flex;align-items:center;gap:12px}
+    .avatar{width:56px;height:56px;border-radius:10px;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .rating{color:goldenrod;font-weight:700}
+    .tags{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{font-size:12px;padding:6px 8px;border-radius:8px;background:#f1f5f9;color:#0f1724}
+    .cta{margin-top:auto;display:flex;gap:8px}
+    .cta button{flex:1;padding:10px;border-radius:10px;border:none;cursor:pointer}
+    .cta .contact{background:var(--accent);color:white}
+    .cta .profile{background:#eef2ff}
+    footer{margin-top:26px;padding:18px 0;text-align:center;color:var(--muted)}
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(9,10,11,0.35);display:none;align-items:center;justify-content:center}
+    .modal{background:white;padding:18px;border-radius:12px;max-width:720px;width:94%;box-shadow:0 20px 40px rgba(2,6,23,0.3)}
+    .close{background:#f1f5f9;border-radius:8px;padding:8px;border:none;cursor:pointer}
+    @media(max-width:900px){.hero{grid-template-columns:1fr;}.logo .mark{width:44px;height:44px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="mark">TM</div>
+      <div>
+        <div style="font-weight:700">Teach Me</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.85)">Tu profe, cuando y como quieras</div>
+      </div>
+    </div>
+    <nav>
+      <button class="btn" data-scroll="inicio">Inicio</button>
+      <button class="btn" data-scroll="quienes">Qué somos</button>
+      <button class="btn primary" data-scroll="buscar">Buscar profe</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="panel">
+        <h1>Aprendé con los mejores — rápido, simple y cerca tuyo</h1>
+        <p class="lead">Clases particulares presenciales o en línea. Elegí materia, encontrá perfiles con valoraciones y contactá al profe que mejor se adapte a tu estilo.</p>
+
+        <div class="search-bar">
+          <input id="quickSearch" placeholder="Buscar por materia, profe o palabra clave..." />
+          <button id="btnSearch">Buscar</button>
+        </div>
+
+        <div class="features">
+          <div class="feature"><strong>Clases a domicilio o virtuales</strong><div style="font-size:13px;color:var(--muted)">Elegí la modalidad</div></div>
+          <div class="feature"><strong>Profes seleccionados</strong><div style="font-size:13px;color:var(--muted)">Perfiles con reseñas y experiencia</div></div>
+        </div>
+
+        <div style="margin-top:12px">
+          <small style="color:var(--muted)">Categorías rápidas:</small>
+          <div class="categories" id="quickChips"></div>
+        </div>
+
+      </div>
+
+      <div class="panel" style="text-align:center">
+        <h3 style="margin-top:6px">¿Querés ser profe?</h3>
+        <p style="color:var(--muted)">Registrate y crea tu perfil en menos de 5 minutos.</p>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+          <button class="btn primary" onclick="alert('Formulario de registro (demo)')">Registrarme</button>
+          <button class="btn" onclick="alert('Más info (demo)')">Cómo funciona</button>
+        </div>
+        <img src="" alt="" style="width:100%;max-width:240px;margin-top:18px;opacity:0.08" />
+      </div>
+    </section>
+
+    <section id="quienes" style="margin-top:22px">
+      <div class="panel">
+        <h2>Qué somos</h2>
+        <p style="color:var(--muted)">Teach Me conecta estudiantes con profesores particulares verificados. Buscás por materia, filtrás por modalidad y encontrás perfiles con experiencia, metodologías y valoraciones reales. Nuestro objetivo: simplificar el proceso para que aprendas eficientemente.</p>
+      </div>
+    </section>
+
+    <section id="buscar" style="margin-top:22px">
+      <div class="panel">
+        <h2>Buscar profesor</h2>
+        <p style="color:var(--muted)">Elegí una categoría o buscá por palabra clave. Tocá una tarjeta para ver el perfil completo.</p>
+
+        <div style="margin-top:10px">
+          <div id="categoriesContainer" class="categories"></div>
+        </div>
+
+        <div id="cards" class="cards"></div>
+      </div>
+    </section>
+
+    <footer>
+      &copy; 2025 Teach Me — Demo. Hecho con ❤️ por CAPITAN.
+    </footer>
+  </main>
+
+  <!-- modal -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong id="modalName">Nombre Profe</strong>
+        <button class="close" onclick="closeModal()">Cerrar</button>
+      </div>
+      <div style="display:flex;gap:12px">
+        <div style="width:120px;height:120px;border-radius:10px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-weight:700">P</div>
+        <div>
+          <div id="modalBio" style="color:var(--muted)"></div>
+          <div style="margin-top:8px"><strong>Materias:</strong> <span id="modalSubjects"></span></div>
+          <div style="margin-top:6px"><strong>Modalidad:</strong> <span id="modalMode"></span></div>
+          <div style="margin-top:6px"><strong>Precio aprox:</strong> <span id="modalPrice"></span></div>
+          <div style="margin-top:10px"><button class="contact" onclick="alert('Contactar (demo)')">Contactar</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos de ejemplo — perfiles inventados
+    const teachers = [
+      {id:1,name:'María López',subjects:['Matemática','Física'],rating:4.9,mode:['virtual','domicilio'],price:'$2500/h',bio:'Lic. en Física, 6 años de experiencia con secundarios y terciarios.'},
+      {id:2,name:'Sergio Ramírez',subjects:['Lengua','Historia'],rating:4.7,mode:['virtual'],price:'$2000/h',bio:'Profesor de Lengua. Clases dinámicas y con enfoque en lectura y análisis.'},
+      {id:3,name:'Lucía Fernández',subjects:['Inglés'],rating:4.8,mode:['virtual','domicilio'],price:'$2300/h',bio:'Native-like English teacher. Preparación PET/TOEFL escolar.'},
+      {id:4,name:'Diego Torres',subjects:['Química','Biología'],rating:4.6,mode:['domicilio'],price:'$2100/h',bio:'Formación en bioquímica, apoyo para cursadas y exámenes.'},
+      {id:5,name:'Carolina García',subjects:['Economía','Proyectos Organizacionales'],rating:4.9,mode:['virtual'],price:'$2700/h',bio:'Economista con experiencia en proyectos y clases prácticas.'},
+      {id:6,name:'Agustín Morales',subjects:['Matemática','Programación'],rating:4.5,mode:['virtual','domicilio'],price:'$1900/h',bio:'Ingeniero y profe particular. Matemática y lógica para todos los niveles.'},
+      {id:7,name:'Paula Núñez',subjects:['Biología'],rating:4.4,mode:['virtual'],price:'$1800/h',bio:'Bióloga. Clases con experimentos caseros y guías prácticas.'},
+      {id:8,name:'Martín Ruiz',subjects:['Física','Matemática'],rating:4.3,mode:['virtual'],price:'$2000/h',bio:'Profesor con foco en problemas y resolución paso a paso.'}
+    ];
+
+    const categories = Array.from(new Set(teachers.flatMap(t => t.subjects))).sort();
+
+    // Render chips
+    const categoriesContainer = document.getElementById('categoriesContainer');
+    const quickChips = document.getElementById('quickChips');
+
+    function renderChips(){
+      categoriesContainer.innerHTML = '';
+      quickChips.innerHTML = '';
+      categories.forEach(cat =>{
+        const btn = document.createElement('button');
+        btn.className='chip'; btn.textContent=cat; btn.onclick=()=>filterByCategory(cat,btn);
+        categoriesContainer.appendChild(btn);
+
+        const chip2 = document.createElement('button');
+        chip2.className='chip'; chip2.textContent=cat; chip2.onclick=()=>filterByCategory(cat,chip2);
+        quickChips.appendChild(chip2);
+      })
+    }
+
+    // Render cards
+    const cards = document.getElementById('cards');
+    function renderCards(list){
+      cards.innerHTML='';
+      list.forEach(t=>{
+        const c = document.createElement('div'); c.className='card';
+        c.innerHTML = `
+          <div class="meta">
+            <div class="avatar">${t.name.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+            <div>
+              <div style="font-weight:700">${t.name} <span style="font-size:12px;color:var(--muted);font-weight:600">· ${t.rating}★</span></div>
+              <div style="font-size:13px;color:var(--muted)">${t.bio}</div>
+            </div>
+          </div>
+          <div class="tags">${t.subjects.map(s=>`<div class="tag">${s}</div>`).join('')}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <div style="font-weight:700">${t.price}</div>
+            <div style="font-size:13px;color:var(--muted)">${t.mode.join(' · ')}</div>
+          </div>
+          <div class="cta">
+            <button class="profile" onclick='openModal(${t.id})'>Ver perfil</button>
+            <button class="contact" onclick='alert("Contactar a ${t.name} (demo)")'>Contactar</button>
+          </div>
+        `;
+        cards.appendChild(c);
+      })
+    }
+
+    function filterByCategory(cat,el){
+      // toggle active style
+      document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      el.classList.add('active');
+      const filtered = teachers.filter(t => t.subjects.includes(cat));
+      renderCards(filtered);
+      // scroll to cards
+      document.getElementById('buscar').scrollIntoView({behavior:'smooth'});
+    }
+
+    // Search
+    document.getElementById('btnSearch').addEventListener('click', ()=>{
+      const q = document.getElementById('quickSearch').value.trim().toLowerCase();
+      if(!q) { renderCards(teachers); return }
+      const results = teachers.filter(t => (
+        t.name.toLowerCase().includes(q) || t.subjects.join(' ').toLowerCase().includes(q) || t.bio.toLowerCase().includes(q)
+      ));
+      renderCards(results);
+      document.getElementById('buscar').scrollIntoView({behavior:'smooth'});
+    });
+
+    // modal
+    function openModal(id){
+      const t = teachers.find(x=>x.id===id);
+      if(!t) return;
+      document.getElementById('modalName').textContent = t.name + ' · ' + t.rating + '★';
+      document.getElementById('modalBio').textContent = t.bio;
+      document.getElementById('modalSubjects').textContent = t.subjects.join(', ');
+      document.getElementById('modalMode').textContent = t.mode.join(', ');
+      document.getElementById('modalPrice').textContent = t.price;
+      document.getElementById('modalBackdrop').style.display='flex';
+    }
+    function closeModal(){ document.getElementById('modalBackdrop').style.display='none'; }
+
+    // nav scroll
+    document.querySelectorAll('button[data-scroll]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const id = b.getAttribute('data-scroll'); document.getElementById(id).scrollIntoView({behavior:'smooth'});
+      });
+    });
+
+    // quick load
+    renderChips(); renderCards(teachers);
+  </script>
+</body>
+</html>
